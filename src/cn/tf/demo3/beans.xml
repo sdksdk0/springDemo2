@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       					   http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="personServiceId" class="cn.tf.demo3.PersonServiceImpl"></bean>
+	
+	<!-- 切面类，含通知 -->
+	<bean id="myAspect" class="cn.tf.demo3.MyAspect" ></bean>
+	
+	<!-- 
+			ProxyFactoryBean 用于生产代理类一个特殊的工厂bean
+			proxyInterfaces 用于确定需要实现接口
+			interceptorNames 用于确定通知实现类，需要提供的bean名称
+			target 用于确定代理类bean名称
+	 -->
+	
+	<!-- 代理类 -->
+	<bean id="personServiceProxyId"  class="org.springframework.aop.framework.ProxyFactoryBean">
+		<!-- 确定接口 -->
+		<property name="proxyInterfaces" value="cn.tf.demo3.PersonService"></property>
+		<!-- 确定通知 -->
+		<property name="interceptorNames"  value="myAspect"></property>
+		<!-- 确定目标类 -->
+		<property name="target"  ref="personServiceId"></property>
+		<!-- 强制cglib -->
+		<property name="optimize" value="true"></property>
+		
+	</bean>
+	
+</beans>
