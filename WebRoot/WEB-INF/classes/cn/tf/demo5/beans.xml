@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"> <!-- bean definitions here -->
+
+    					   	
+	<!-- 目标类 -->
+	<bean id="teacherServiceId"  class="cn.tf.demo5.TeacherServiceImpl"></bean>
+	
+	<bean id="myAspect"  class="cn.tf.demo5.MyAspect"></bean>
+	<!-- aop编程 -->
+	<aop:config>
+		<aop:aspect  ref="myAspect">
+			<aop:pointcut expression="execution(* cn.tf.demo5.*.*(..))" id="myPointCut"/>
+			<!-- 声明通知类型 -->
+			<aop:before method="myBefore"  pointcut-ref="myPointCut"/> 
+			<aop:after-returning method="myAfterReturning" pointcut-ref="myPointCut" returning="xxx"/>
+			<aop:around method="myAround"  pointcut-ref="myPointCut" />
+			<aop:after-throwing method="myAfterThrowing"  pointcut-ref="myPointCut"  throwing="e"/>
+			<aop:after method="myAfter"  pointcut-ref="myPointCut"/>
+			
+			
+		</aop:aspect>
+	</aop:config>
+</beans>

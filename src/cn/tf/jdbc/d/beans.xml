@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       					   http://www.springframework.org/schema/beans/spring-beans.xsd
+       					   http://www.springframework.org/schema/aop 
+       					   http://www.springframework.org/schema/aop/spring-aop.xsd
+       					   http://www.springframework.org/schema/context
+       					   http://www.springframework.org/schema/context/spring-context.xsd
+       					   ">
+	<!-- 加载properties文件 -->
+	<context:property-placeholder location="classpath:cn/tf/jdbc/d/jdbcInfo.properties"/>
+	
+	<!-- 配置数据源 
+		如果properties文件已经被加载，可以通过 ${key}获得配置文件中内容
+	-->
+	<bean id="dataSourceId" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${jdbc.driverClass}"></property>
+		<property name="jdbcUrl" value="${jdbc.jdbcUrl}"></property>
+		<property name="user" value="${jdbc.user}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+	</bean>
+	
+	<!-- 配置dao -->
+	<bean id="userDaoId" class="cn.tf.jdbc.d.UserDao">
+		<property name="dataSource" ref="dataSourceId"></property>
+	</bean>
+</beans>
